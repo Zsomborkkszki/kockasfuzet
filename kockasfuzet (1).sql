@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Jan 22. 13:30
+-- Létrehozás ideje: 2026. Jan 29. 08:13
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -41,6 +41,18 @@ CREATE TABLE `szamla` (
   `Megjegyzes` varchar(256) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
+--
+-- A tábla adatainak kiíratása `szamla`
+--
+
+INSERT INTO `szamla` (`Id`, `SzolgaltatasAzon`, `SzolgaltatoRovid`, `Tol`, `Ig`, `Osszeg`, `Hatarido`, `Befizetve`, `Megjegyzes`) VALUES
+(1, 1, 'MVM Next', '2025-11-01', '2025-11-30', 9525, '2025-12-14', '2025-12-05', 'postán'),
+(2, 2, 'MVM Next', '2025-11-01', '2025-11-30', 17321, '2025-12-14', '2025-12-05', 'postán'),
+(3, 3, 'Telecom', '2025-11-06', '2025-12-06', 6800, '2025-12-20', '2025-12-13', 'online'),
+(4, 4, 'Telecom', '2025-11-06', '2025-12-06', 5000, '2025-12-20', '2025-12-13', 'online'),
+(5, 5, 'MiVíz', '2025-11-01', '2025-11-15', 7000, '2025-11-30', '2025-11-29', 'postán'),
+(6, 5, 'ÉRV', '2025-11-16', '2025-11-30', 4500, '2025-12-10', '2025-12-10', 'email');
+
 -- --------------------------------------------------------
 
 --
@@ -51,6 +63,17 @@ CREATE TABLE `szolgaltatas` (
   `Id` int(11) NOT NULL,
   `Nev` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `szolgaltatas`
+--
+
+INSERT INTO `szolgaltatas` (`Id`, `Nev`) VALUES
+(1, 'áram'),
+(2, 'földgáz'),
+(3, 'vezetékes telefon'),
+(4, 'mobil'),
+(5, 'víz');
 
 -- --------------------------------------------------------
 
@@ -63,6 +86,16 @@ CREATE TABLE `szolgaltato` (
   `Nev` varchar(256) NOT NULL,
   `Ugyfelszolgalat` varchar(256) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `szolgaltato`
+--
+
+INSERT INTO `szolgaltato` (`RovidNev`, `Nev`, `Ugyfelszolgalat`) VALUES
+('ÉRV', 'ÉRV. Északmagyarországi Regionális Vízművek Zrt.', '3530 Miskolc, Corvin u. 2.'),
+('MiVíz', 'MIVÍZ Kft.', '3530 Miskolc, Corvin u. 2.'),
+('MVM Next', 'MVM Next Energiakereskedelmi Zrt.', '3530 Miskolc, Arany János utca 6-8.'),
+('Telecom', 'Magyar Telekom Nyrt.', '3525 Miskolc, Szentpáli utca 2 - 6.');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -96,13 +129,13 @@ ALTER TABLE `szolgaltato`
 -- AUTO_INCREMENT a táblához `szamla`
 --
 ALTER TABLE `szamla`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT a táblához `szolgaltatas`
 --
 ALTER TABLE `szolgaltatas`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Megkötések a kiírt táblákhoz
