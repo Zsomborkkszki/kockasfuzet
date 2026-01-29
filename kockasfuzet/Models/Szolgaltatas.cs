@@ -21,5 +21,10 @@ namespace kockasfuzet.Models
         public string Nev1 { get => Nev; set => Nev = value; }
 
         public Szolgaltatas() { }
+
+        public override string ToString()
+        {
+            return $"Id: {Id}, Név: {Nev}";
+        }
     }
 }

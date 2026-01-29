@@ -8,21 +8,26 @@ namespace kockasfuzet.Models
 {
     internal class Szolgaltato
     {
-        string RovidNev;
-        string Nev;
-        string Ugyfelszolg;
+        string rovidNev;
+        string nev;
+        string ugyfelszolg;
 
         public Szolgaltato(string rovidNev, string nev, string ugyfelszolg)
         {
-            RovidNev = rovidNev;
-            Nev = nev;
-            Ugyfelszolg = ugyfelszolg;
+            this.rovidNev = rovidNev;
+            this.nev = nev;
+            this.ugyfelszolg = ugyfelszolg;
         }
 
-        public string RovidNev1 { get => RovidNev; set => RovidNev = value; }
-        public string Nev1 { get => Nev; set => Nev = value; }
-        public string Ugyfelszolg1 { get => Ugyfelszolg; set => Ugyfelszolg = value; }
+        public string RovidNev { get => rovidNev; set => rovidNev = value; }
+        public string Nev { get => nev; set => nev = value; }
+        public string Ugyfelszolg { get => ugyfelszolg; set => ugyfelszolg = value; }
         
         public Szolgaltato() { }
+
+        public override string ToString()
+        {
+            return $"         {RovidNev}              {Nev}              {Ugyfelszolg}";
+        }
     }
 }
