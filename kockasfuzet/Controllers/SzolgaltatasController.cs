@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Kockasfuzet.Controllers
 {
-    internal class SzolgaltatoController
+    internal class SzolgaltatasController
     {
-        public List<Szolgaltato> GetSzolgaltatoList()
+        public List<Szolgaltatas> GetSzolgaltatasList()
         {
             MySqlConnection connection = new MySqlConnection();
             string connectionString = "SERVER =localhost;DATABASE=kockasfuzet;UID=root;PASSWORD=;";
@@ -19,17 +19,16 @@ namespace Kockasfuzet.Controllers
             try
             {
                 connection.Open();
-                string sql = "SELECT * FROM szolgaltato";
+                string sql = "SELECT * FROM szolgaltatas";
                 MySqlCommand command = new MySqlCommand(sql, connection);
-                List<Szolgaltato> eredmeny = new List<Szolgaltato>();
+                List<Szolgaltatas> eredmeny = new List<Szolgaltatas>();
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    eredmeny.Add(new Szolgaltato()
+                    eredmeny.Add(new Szolgaltatas()
                     {
-                        RovidNev = reader.GetString("RovidNev"),
-                        Nev = reader.GetString("Nev"),
-                        Ugyfelszolgalat = reader.GetString("Ugyfelszolgalat")
+                        Id = reader.GetInt32("Id"),
+                        Nev = reader.GetString("Nev")
                     });
                 }
                 connection.Close();
@@ -38,11 +37,11 @@ namespace Kockasfuzet.Controllers
             catch (Exception)
             {
                 //Console.WriteLine("Hiba történt: " + ex.Message);
-                return new List<Szolgaltato>();
+                return new List<Szolgaltatas>();
             }
         }
 
-        public Szolgaltato GetSzolgaltatoByRovidNev(string rovidNev)
+        public Szolgaltatas GetSzolgaltatasById(int id)
         {
             MySqlConnection connection = new MySqlConnection();
             string connectionString = "SERVER =localhost;DATABASE=kockasfuzet;UID=root;PASSWORD=;";
@@ -50,21 +49,18 @@ namespace Kockasfuzet.Controllers
             try
             {
                 connection.Open();
-                string sql = "SELECT * FROM szolgaltato WHERE RovidNev = @RovidNev";
+                string sql = "SELECT * FROM szolgaltatas WHERE Id = @Id";
                 MySqlCommand command = new MySqlCommand(sql, connection);
-                command.Parameters.AddWithValue("@RovidNev", rovidNev);
+                command.Parameters.AddWithValue("@Id", id);
+                Szolgaltatas eredmeny = new Szolgaltatas();
                 MySqlDataReader reader = command.ExecuteReader();
-                if (reader.Read())
+                while (reader.Read())
                 {
-                    return new Szolgaltato()
-                    {
-                        RovidNev = reader.GetString("RovidNev"),
-                        Nev = reader.GetString("Nev"),
-                        Ugyfelszolgalat = reader.GetString("Ugyfelszolgalat")
-                    };
+                    eredmeny.Id = reader.GetInt32("Id");
+                    eredmeny.Nev = reader.GetString("Nev");
                 }
                 connection.Close();
-                return null;
+                return eredmeny;
             }
             catch (Exception)
             {
@@ -73,7 +69,7 @@ namespace Kockasfuzet.Controllers
             }
         }
 
-        public string CreateSzolgaltato(Szolgaltato szolgaltato)
+        public string CreateSzolgaltatas(Szolgaltatas szolgaltatas)
         {
             MySqlConnection connection = new MySqlConnection();
             string connectionString = "SERVER =localhost;DATABASE=kockasfuzet;UID=root;PASSWORD=;";
@@ -81,11 +77,10 @@ namespace Kockasfuzet.Controllers
             try
             {
                 connection.Open();
-                string sql = "INSERT INTO `szolgaltato`(`RovidNev`, `Nev`, `Ugyfelszolgalat`) VALUES (@RovidNev,@Nev,@Ugyfelszolgalat)";
+                string sql = "INSERT INTO `szolgaltatas`(`Id`, `Nev`) VALUES (@Id,@Nev)";
                 MySqlCommand command = new MySqlCommand(sql, connection);
-                command.Parameters.AddWithValue("@RovidNev", szolgaltato.RovidNev);
-                command.Parameters.AddWithValue("Nev", szolgaltato.Nev);
-                command.Parameters.AddWithValue("@Ugyfelszolgalat", szolgaltato.Ugyfelszolgalat);
+                command.Parameters.AddWithValue("@Id", szolgaltatas.Id);
+                command.Parameters.AddWithValue("@Nev", szolgaltatas.Nev);
                 int sorokSzama = command.ExecuteNonQuery();
                 connection.Close();
                 string valasz = sorokSzama > 0 ? "Sikeres rögzítés" : "Sikertelen rögzítés";
@@ -97,7 +92,7 @@ namespace Kockasfuzet.Controllers
             }
         }
 
-        public string UpdateSzolgaltato(Szolgaltato szolgaltato, string eredetirovnev)
+        public string UpdateSzolgaltatas(Szolgaltatas szolgaltatas)
         {
             MySqlConnection connection = new MySqlConnection();
             string connectionString = "SERVER =localhost;DATABASE=kockasfuzet;UID=root;PASSWORD=;";
@@ -105,15 +100,13 @@ namespace Kockasfuzet.Controllers
             try
             {
                 connection.Open();
-                string sql = "UPDATE `szolgaltato` SET `RovidNev` = @RovidNev, `Nev` = @Nev, `Ugyfelszolgalat` = @Ugyfelszolgalat WHERE `RovidNev` = @EredRovidNev";
+                string sql = "UPDATE `szolgaltatas` SET `Nev` = @Nev WHERE `Id` = @Id";
                 MySqlCommand command = new MySqlCommand(sql, connection);
-                command.Parameters.AddWithValue("@EredRovidNev", eredetirovnev);
-                command.Parameters.AddWithValue("@RovidNev", szolgaltato.RovidNev);
-                command.Parameters.AddWithValue("Nev", szolgaltato.Nev);
-                command.Parameters.AddWithValue("@Ugyfelszolgalat", szolgaltato.Ugyfelszolgalat);
+                command.Parameters.AddWithValue("@Id", szolgaltatas.Id);
+                command.Parameters.AddWithValue("@Nev", szolgaltatas.Nev);
                 int sorokSzama = command.ExecuteNonQuery();
                 connection.Close();
-                string valasz = sorokSzama > 0 ? "Sikeres módosítás" : "Sikertelen módosítás";
+                string valasz = sorokSzama > 0 ? "Sikeres frissítés" : "Sikertelen frissítés";
                 return valasz;
             }
             catch (Exception ex)
@@ -121,7 +114,8 @@ namespace Kockasfuzet.Controllers
                 return "Hiba történt: " + ex.Message;
             }
         }
-        public string DeleteSzolgaltato(Szolgaltato szolgaltato)
+
+        public string DeleteSzolgaltatas(int id)
         {
             MySqlConnection connection = new MySqlConnection();
             string connectionString = "SERVER =localhost;DATABASE=kockasfuzet;UID=root;PASSWORD=;";
@@ -129,9 +123,9 @@ namespace Kockasfuzet.Controllers
             try
             {
                 connection.Open();
-                string sql = "DELETE FROM `szolgaltato` WHERE `RovidNev` = @RovidNev";
+                string sql = "DELETE FROM `szolgaltatas` WHERE `Id` = @Id";
                 MySqlCommand command = new MySqlCommand(sql, connection);
-                command.Parameters.AddWithValue("@RovidNev", szolgaltato.RovidNev);
+                command.Parameters.AddWithValue("@Id", id);
                 int sorokSzama = command.ExecuteNonQuery();
                 connection.Close();
                 string valasz = sorokSzama > 0 ? "Sikeres törlés" : "Sikertelen törlés";

@@ -4,27 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace kockasfuzet.Models
+namespace Kockasfuzet.Models
 {
     internal class Szolgaltatas
     {
-        int Id;
-        string Nev;
+        int id;
+        string nev;
 
-        public Szolgaltatas(int id, string nev)
+        public Szolgaltatas(int azon, string nev)
         {
-            Id = id;
-            Nev = nev;
+            this.id = azon;
+            this.nev = nev;
         }
-
-        public int Id1 { get => Id; set => Id = value; }
-        public string Nev1 { get => Nev; set => Nev = value; }
-
         public Szolgaltatas() { }
+
+        public int Id { get => id; set => id = value; }
+        public string Nev { get => nev; set => nev = value; }
 
         public override string ToString()
         {
-            return $"Id: {Id}, Név: {Nev}";
+            return $"Id: {Id},Név: {Nev}";
         }
     }
 }

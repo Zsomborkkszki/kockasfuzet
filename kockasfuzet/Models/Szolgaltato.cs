@@ -4,30 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace kockasfuzet.Models
+namespace Kockasfuzet.Models
 {
     internal class Szolgaltato
     {
-        string rovidNev;
+        string rovidnev;
         string nev;
-        string ugyfelszolg;
+        string ugyfelszolgalat;
 
-        public Szolgaltato(string rovidNev, string nev, string ugyfelszolg)
+        public Szolgaltato(string rovidnev, string nev, string ugyfelszolgalat)
         {
-            this.rovidNev = rovidNev;
+            this.rovidnev = rovidnev;
             this.nev = nev;
-            this.ugyfelszolg = ugyfelszolg;
+            this.ugyfelszolgalat = ugyfelszolgalat;
         }
-
-        public string RovidNev { get => rovidNev; set => rovidNev = value; }
-        public string Nev { get => nev; set => nev = value; }
-        public string Ugyfelszolg { get => ugyfelszolg; set => ugyfelszolg = value; }
-        
         public Szolgaltato() { }
 
-        public override string ToString()
-        {
-            return $"         {RovidNev}              {Nev}              {Ugyfelszolg}";
-        }
+        public string RovidNev { get => rovidnev; set => rovidnev = value; }
+        public string Nev { get => nev; set => nev = value; }
+        public string Ugyfelszolgalat { get => ugyfelszolgalat; set => ugyfelszolgalat = value; }
     }
 }
